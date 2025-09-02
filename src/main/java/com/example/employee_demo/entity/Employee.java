@@ -9,7 +9,10 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "salary", nullable = false)
     private Double salary;
 
     // getters and setters

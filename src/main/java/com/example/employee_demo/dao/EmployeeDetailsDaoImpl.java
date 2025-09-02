@@ -17,7 +17,7 @@ public class EmployeeDetailsDaoImpl implements EmployeeDetailsDao {
         String sql = "SELECT name, salary FROM employee WHERE id = ?";
         return jdbcTemplate.queryForObject(
             sql,
-            (rs, _ ) -> new EmployeeDTO(rs.getString("name"), rs.getDouble("salary")),
+            (rs, _) -> new EmployeeDTO(rs.getString("name"), rs.getDouble("salary")),
             id
         );
     }
