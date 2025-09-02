@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Details</title>
+    <script src="FetchEmployeeDetails.js"></script>
+</head>
+<body>
+    <h1>Employee Details</h1>
+    
+    <div id="employeeResult">
+        <h3>Employee Details:</h3>
+        <p id="resultText">Loading employee details...</p>
+    </div>
+
+    <br>
+    <a href="locate.html">Back to Search</a>
+
+    <script>
+        // Get employee ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const employeeId = urlParams.get('id');
+        
+        if (employeeId) {
+            // Fetch employee details when page loads
+            fetchEmployeeDetails(employeeId);
+        } else {
+            document.getElementById("resultText").innerHTML = 
+                "<span style='color:red;'>No employee ID provided</span>";
+        }
+    </script>
+</body>
+</html>

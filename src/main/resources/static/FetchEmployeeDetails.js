@@ -1,64 +1,31 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("employeeForm");
-  const fetchForm = document.getElementById("fetchForm");
-  const resultDiv = document.getElementById("employeeResult");
+// FetchEmployeeDetails.js
 
-  // Add employee
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const employee = {
-      id: document.getElementById("id").value,
-      name: document.getElementById("name").value,
-      department: document.getElementById("department").value,
-      role: document.getElementById("role").value
-    };
-
-    fetch("/employees", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(employee)
-    })
-    .then(response => response.text()) // accept text or JSON
-    .then(data => {
-      if (data.startsWith("{")) { // check if JSON (employee object)
-        const emp = JSON.parse(data);
-        alert("Employee added successfully:\n" +
-              "ID: " + emp.id + "\n" +
-              "Name: " + emp.name + "\n" +
-              "Dept: " + emp.department + "\n" +
-              "Role: " + emp.role);
-      } else {
-        alert("Error: " + data); // duplicate ID or backend message
-      }
-      form.reset();
-    })
-    .catch(error => console.error("Error:", error));
-  });
-
-  // Fetch employee by ID
-  fetchForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const empId = document.getElementById("empId").value;
-
-    fetch("/employees/" + empId)
-      .then(response => {
+function fetchEmployeeDetails(employeeId) {
+    // Use GET method to fetch employee details
+    fetch(`/getEmpNameUsingGet?id=${employeeId}`)
+    .then(response => {
         if (!response.ok) {
-          return response.text().then(text => { throw new Error(text); });
+            throw new Error('Employee not found');
         }
         return response.json();
-      })
-      .then(employee => {
-        resultDiv.innerHTML = `
-          <p><strong>ID:</strong> ${employee.id}</p>
-          <p><strong>Name:</strong> ${employee.name}</p>
-          <p><strong>Department:</strong> ${employee.department}</p>
-          <p><strong>Role:</strong> ${employee.role}</p>
-        `;
-      })
-      .catch(error => {
-        resultDiv.innerHTML = `<p style="color:red;">${error.message}</p>`;
-      });
-  });
-});
+    })
+    .then(data => {
+        displayEmployeeDetails(data);
+    })
+    .catch(error => {
+        document.getElementById("resultText").innerHTML = 
+            `<span style="color:red;">Error: ${error.message}</span>`;
+    });
+}
+
+function displayEmployeeDetails(employee) {
+    document.getElementById("resultText").innerHTML = 
+        `<strong>Employee ID:</strong> ${getEmployeeIdFromUrl()}<br>
+         <strong>Name:</strong> ${employee.name}<br>
+         <strong>Salary:</strong> $${employee.salary.toLocaleString()}`;
+}
+
+function getEmployeeIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+}
