@@ -2,31 +2,67 @@
 <html>
 <head>
     <title>Employee Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="FetchEmployeeDetails.js"></script>
+    <style>
+        .form-field {
+            margin: 10px 0;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+        input:disabled {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
     <h1>Employee Details</h1>
     
-    <div id="employeeResult">
-        <h3>Employee Details:</h3>
-        <p id="resultText">Loading employee details...</p>
-    </div>
-
-    <br>
-    <a href="locate.html">Back to Search</a>
+    <form id="employeeDetailsForm">
+        <div class="form-field">
+            <label for="employeeId">Employee ID:</label>
+            <input type="text" id="employeeId" name="employeeId" disabled>
+        </div>
+        
+        <div class="form-field">
+            <label for="employeeName">Employee Name:</label>
+            <input type="text" id="employeeName" name="employeeName" disabled>
+        </div>
+        
+        <div class="form-field">
+            <label for="employeeSalary">Salary:</label>
+            <input type="text" id="employeeSalary" name="employeeSalary" disabled>
+        </div>
+        
+        <div class="form-field">
+            <button type="button" id="okBtn">OK</button>
+        </div>
+    </form>
 
     <script>
-        // Get employee ID from URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const employeeId = urlParams.get('id');
-        
-        if (employeeId) {
-            // Fetch employee details when page loads
-            fetchEmployeeDetails(employeeId);
-        } else {
-            document.getElementById("resultText").innerHTML = 
-                "<span style='color:red;'>No employee ID provided</span>";
-        }
+        $(document).ready(function() {
+            // Get employee ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const employeeId = urlParams.get('id');
+            
+            if (employeeId) {
+                // Set employee ID in the field
+                $('#employeeId').val(employeeId);
+                
+                // Fetch and display employee details
+                fetchEmployeeDetails(employeeId);
+            } else {
+                alert('No employee ID provided');
+            }
+
+            // OK button click handler
+            $('#okBtn').click(function() {
+                // Go back to locate.html and clear the field
+                window.location.href = 'locate.html';
+            });
+        });
     </script>
 </body>
 </html>

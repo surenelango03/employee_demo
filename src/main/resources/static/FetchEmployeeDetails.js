@@ -1,31 +1,83 @@
 // FetchEmployeeDetails.js
 
 function fetchEmployeeDetails(employeeId) {
-    // Use GET method to fetch employee details
-    fetch(`/getEmpNameUsingGet?id=${employeeId}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Employee not found');
+    // Use jQuery AJAX for GET request
+    $.ajax({
+        url: `/getEmpNameUsingGet?id=${employeeId}`,
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            displayEmployeeDetails(data, employeeId);
+        },
+        error: function(xhr, status, error) {
+            $('#employeeName').val('Error: Employee not found');
+            $('#employeeSalary').val('');
         }
-        return response.json();
-    })
-    .then(data => {
-        displayEmployeeDetails(data);
-    })
-    .catch(error => {
-        document.getElementById("resultText").innerHTML = 
-            `<span style="color:red;">Error: ${error.message}</span>`;
     });
 }
 
-function displayEmployeeDetails(employee) {
-    document.getElementById("resultText").innerHTML = 
-        `<strong>Employee ID:</strong> ${getEmployeeIdFromUrl()}<br>
-         <strong>Name:</strong> ${employee.name}<br>
-         <strong>Salary:</strong> $${employee.salary.toLocaleString()}`;
+function displayEmployeeDetails(employee, employeeId) {
+    // Use jQuery to set values
+    $('#employeeId').val(employeeId);
+    $('#employeeName').val(employee.name);
+    $('#employeeSalary').val(employee.salary.toLocaleString());
 }
 
-function getEmployeeIdFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id');
+// Function to demonstrate jQuery serialize (though not needed for current flow)
+function captureFormData() {
+    // Example of using serializeArray
+    const formData = $('#employeeDetailsForm').serializeArray();
+    console.log('Form data:', formData);
+    
+    // Example of using serialize
+    const serializedData = $('#employeeDetailsForm').serialize();
+    console.log('Serialized data:', serializedData);
+    
+    return formData;
+}
+
+// Function to demonstrate POST with jQuery (though not needed for current flow)
+function submitEmployeeDataUsingPost(formData) {
+    // Convert formData array to object
+    const dataObject = {};
+    $.each(formData, function() {
+        dataObject[this.name] = this.value;
+    });
+    
+    // Use jQuery AJAX for POST request
+    $.ajax({
+        url: '/getEmpNameUsingPost',
+        method: 'POST',
+        data: dataObject,
+        dataType: 'json',
+        success: function(response) {
+            console.log('POST successful:', response);
+        },
+        error: function(xhr, status, error) {
+            console.error('POST failed:', error);
+        }
+    });
+}
+
+// Optional: Function to handle form submission with POST method
+function fetchUsingPost(employeeId) {
+    // Create form data object for POST
+    const formData = {
+        id: employeeId
+    };
+    
+    // Use jQuery AJAX for POST request
+    $.ajax({
+        url: '/getEmpNameUsingPost',
+        method: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function(data) {
+            displayEmployeeDetails(data, employeeId);
+        },
+        error: function(xhr, status, error) {
+            $('#employeeName').val('Error: Employee not found');
+            $('#employeeSalary').val('');
+        }
+    });
 }
