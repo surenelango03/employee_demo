@@ -43,23 +43,35 @@
 
     <script>
         $(document).ready(function() {
-            // Get employee ID from URL parameters
+            // First check query params (for GET case)
             const urlParams = new URLSearchParams(window.location.search);
-            const employeeId = urlParams.get('id');
-            
+            let employeeId = urlParams.get('id');
+            let method = urlParams.get('method');
+
+            // If not provided, check sessionStorage (for POST case)
+            if (!employeeId) {
+                employeeId = sessionStorage.getItem("employeeId");
+                method = sessionStorage.getItem("method");
+            }
+
             if (employeeId) {
-                // Set employee ID in the field
                 $('#employeeId').val(employeeId);
-                
-                // Fetch and display employee details
-                fetchEmployeeDetails(employeeId);
+
+                if (method === 'post') {
+                    // Use POST (request body)
+                    fetchUsingPost(employeeId);
+                } else {
+                    // Default to GET
+                    fetchEmployeeDetails(employeeId);
+                }
             } else {
                 alert('No employee ID provided');
             }
 
-            // OK button click handler
+            // OK button click → clear sessionStorage and return
             $('#okBtn').click(function() {
-                // Go back to locate.html and clear the field
+                sessionStorage.removeItem("employeeId");
+                sessionStorage.removeItem("method");
                 window.location.href = 'locate.html';
             });
         });

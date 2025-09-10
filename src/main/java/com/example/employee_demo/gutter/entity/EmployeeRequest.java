@@ -1,4 +1,4 @@
-package com.example.employee_demo;
+package com.example.employee_demo.gutter.entity;
 
 public class EmployeeRequest {
     private String empId;
