@@ -18,12 +18,11 @@ function fetchEmployeeDetails(employeeId) {
 
 // POST request
 function fetchUsingPost(employeeId) {
-    const formData = { id: employeeId };
-
     $.ajax({
         url: '/getEmpNameUsingPost',
         method: 'POST',
-        data: formData,   // sends as x-www-form-urlencoded
+        contentType: 'application/json',
+        data: JSON.stringify({ id: employeeId }),
         dataType: 'json',
         success: function(data) {
             displayEmployeeDetails(data, employeeId);
@@ -31,6 +30,26 @@ function fetchUsingPost(employeeId) {
         error: function(xhr, status, error) {
             $('#employeeName').val('Error: Employee not found');
             $('#employeeSalary').val('');
+        }
+    });
+}
+
+// NEW: Add employee function
+function addNewEmployee(employeeData) {
+    $.ajax({
+        url: '/employees',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(employeeData),
+        dataType: 'json',
+        success: function(response) {
+            $('#addResult').html(`<span style="color:green;">✅ ${response}</span>`);
+            // Clear the form
+            $('#newName').val('');
+            $('#newSalary').val('');
+        },
+        error: function(xhr, status, error) {
+            $('#addResult').html(`<span style="color:red;">❌ Error: ${xhr.responseText || error}</span>`);
         }
     });
 }

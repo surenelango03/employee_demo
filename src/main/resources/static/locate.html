@@ -6,15 +6,31 @@
     <script src="FetchEmployeeDetails.js"></script>
 </head>
 <body>
-    <h1>Find Employee</h1>
+    <h1>Employee Management</h1>
+    
+    <!-- EXISTING: Find Employee Section -->
+    <h2>Find Employee</h2>
     <form id="empForm">
         <label for="id">Enter Employee ID:</label>
         <input type="number" id="id" name="id" required>
         <br><br>
-        <!-- Two buttons: GET and POST -->
         <button type="button" id="fetchBtnGet">Get (via GET)</button>
         <button type="button" id="fetchBtnPost">Get (via POST)</button>
     </form>
+
+    <!-- NEW: Add Employee Section -->
+    <h2>Add New Employee</h2>
+    <form id="addEmployeeForm">
+        <label for="newName">Name:</label>
+        <input type="text" id="newName" name="name" required>
+        <br>
+        <label for="newSalary">Salary:</label>
+        <input type="number" id="newSalary" name="salary" step="0.01" required>
+        <br><br>
+        <button type="button" id="addEmployeeBtn">Add Employee</button>
+    </form>
+
+    <div id="addResult" style="margin-top: 20px;"></div>
 
     <script>
         $(document).ready(function() {
@@ -42,6 +58,21 @@
 
                 // Navigate without query string
                 window.location.href = `details.html`;
+            });
+            
+            // NEW: Add Employee functionality
+            $('#addEmployeeBtn').click(function() {
+                const employeeData = {
+                    name: $('#newName').val(),
+                    salary: parseFloat($('#newSalary').val())
+                };
+                
+                if (!employeeData.name || !employeeData.salary) {
+                    alert("Please enter both name and salary");
+                    return;
+                }
+                
+                addNewEmployee(employeeData);
             });
         });
     </script>

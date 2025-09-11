@@ -16,4 +16,14 @@ public class EmployeeDetailsServiceImpl implements EmployeeDetailsService {
     public EmployeeDTO fetchEmployeeNameAndSalary(Long id) {    
         return employeeDetailsDao.getEmployeeNameAndSalary(id);
     }
+
+    @Override
+    public String addEmployee(EmployeeRequest employee) {
+        try {
+            employeeDetailsDao.addEmployee(employee);
+            return "Employee added successfully";
+        } catch (Exception e) {
+            return "Error adding employee: " + e.getMessage();
+        }
+    }
 }

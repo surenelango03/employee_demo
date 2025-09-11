@@ -4,4 +4,5 @@ import com.example.employee_demo.dto.EmployeeDTO;
 
 public interface EmployeeDetailsService {
     EmployeeDTO fetchEmployeeNameAndSalary(Long id);
+    String addEmployee(EmployeeRequest employee);
 }
