@@ -12,7 +12,7 @@ public class EmployeeDetailsDaoImpl implements EmployeeDetailsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
+    
     public EmployeeDTO getEmployeeNameAndSalary(Long id) {
         String sql = "SELECT name, salary FROM employee WHERE id = ?";
         return jdbcTemplate.queryForObject(

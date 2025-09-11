@@ -18,8 +18,8 @@ public class EmployeeController {
         return service.fetchEmployeeNameAndSalary(id);
     }
 
-    // Accepts both GET and POST
-    @RequestMapping(value = "/getEmpNameUsingGet", method = {RequestMethod.GET, RequestMethod.POST})
+    // Accepts GET
+    @RequestMapping(value = "/getEmpNameUsingGet", method = {RequestMethod.GET})
     public EmployeeDTO getEmpNameUsingGet(@RequestParam Long id) {
         return service.fetchEmployeeNameAndSalary(id);
     }
