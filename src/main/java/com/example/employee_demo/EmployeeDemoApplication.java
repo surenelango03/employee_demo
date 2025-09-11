@@ -11,3 +11,6 @@ public class EmployeeDemoApplication {
 	}
 
 }
+
+
+//POST NOT BEING USED TO CREATE EMPLOYEE, ONLY GETTING DETAILS USING POST
