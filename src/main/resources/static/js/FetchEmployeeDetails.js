@@ -1,5 +1,3 @@
-// FetchEmployeeDetails.js
-
 // GET request
 function fetchEmployeeDetails(employeeId) {
     $.ajax({
@@ -16,14 +14,15 @@ function fetchEmployeeDetails(employeeId) {
     });
 }
 
-// POST request
+// POST request (JSON body)
 function fetchUsingPost(employeeId) {
-    const formData = { id: employeeId };
+    const dto = { id: employeeId };
 
     $.ajax({
         url: '/getEmpNameUsingPost',
         method: 'POST',
-        data: formData,   // sends as x-www-form-urlencoded
+        contentType: 'application/json', // important for JSON
+        data: JSON.stringify(dto),       // convert JS object to JSON string
         dataType: 'json',
         success: function(data) {
             displayEmployeeDetails(data, employeeId);
@@ -39,5 +38,5 @@ function fetchUsingPost(employeeId) {
 function displayEmployeeDetails(employee, employeeId) {
     $('#employeeId').val(employeeId);
     $('#employeeName').val(employee.name);
-    $('#employeeSalary').val(employee.salary.toLocaleString());
+    $('#employeeSalary').val(employee.salary);
 }

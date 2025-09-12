@@ -35,13 +35,4 @@ public class Employee {
     public Double getSalary() { return salary; }
     public void setSalary(Double salary) { this.salary = salary; }
 
-    // Optional: toString method for debugging
-    @Override
-    public String toString() {
-        return "Employee{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
-               ", salary=" + salary +
-               '}';
-    }
 }

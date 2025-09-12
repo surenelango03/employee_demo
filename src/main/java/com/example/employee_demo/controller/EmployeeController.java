@@ -9,18 +9,19 @@ public class EmployeeController {
     private final EmployeeDetailsService service;
 
     public EmployeeController(EmployeeDetailsService service) {
-        this.service = service;
+    this.service = service;
     }
 
-    // POST only
+    // POST: Accepts EmployeeDTO from request body
     @PostMapping("/getEmpNameUsingPost")
-    public EmployeeDTO getEmpNameUsingPost(@RequestParam Long id) {
-        return service.fetchEmployeeNameAndSalary(id);
+    public EmployeeDTO getEmpNameUsingPost(@RequestBody EmployeeDTO dto) {
+        return service.fetchEmployeeNameAndSalary(dto.getId());
     }
 
-    // Accepts GET
-    @RequestMapping(value = "/getEmpNameUsingGet", method = {RequestMethod.GET})
+    // GET: Accepts ID as request parameter
+    @GetMapping("/getEmpNameUsingGet")
     public EmployeeDTO getEmpNameUsingGet(@RequestParam Long id) {
         return service.fetchEmployeeNameAndSalary(id);
     }
+
 }
